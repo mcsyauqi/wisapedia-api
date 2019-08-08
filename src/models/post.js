@@ -1,6 +1,28 @@
 const mongoose = require('mongoose')
 
 const postSchema = new mongoose.Schema({
+    destination: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    start: {
+        type: Date,
+        required: true,
+    },    
+    finish: {
+        type: Date,
+        required: true,
+    },
+    person: {
+        type: Number,
+        required: true,
+    },
+    route: {
+        type: String,
+        required: true,
+        trim: true
+    },
     description: {
         type: String,
         required: true,

@@ -18,7 +18,7 @@ router.post('/posts', auth, async (req, res) => {
     }
 })
 
-router.get('/posts', auth, async (req, res) => {
+router.get('/posts/me', auth, async (req, res) => {
     try {
         // GET /posts?completed=true
         // GET /posts?limit=10&skip=20
@@ -51,6 +51,19 @@ router.get('/posts', auth, async (req, res) => {
             }
         }).execPopulate()
         res.send(req.user.posts)
+    } catch (e) {
+        res.status(500).send(e)
+    }
+})
+
+router.get('/posts', auth, async (req, res) => {
+    try {
+        const post = await Post.find({})
+
+        if (!post) {
+            return res.status(404).send()
+        }
+        res.send(post)
     } catch (e) {
         res.status(500).send(e)
     }
