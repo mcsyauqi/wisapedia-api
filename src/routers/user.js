@@ -2,6 +2,7 @@ const express = require('express')
 const multer = require('multer')
 const sharp = require('sharp')
 const User = require('../models/user')
+const Post = require('../models/post')
 const auth = require('../middleware/auth')
 const {
     sendWelcomeEmail,
@@ -100,9 +101,9 @@ router.delete('/users/me/avatar', auth, async (req, res) => {
     }
 })
 
-router.get('/users/:id/avatar', async (req, res) => {
+router.get('/users/:userId/avatar', async (req, res) => {
     try {
-        const user = await User.findById(req.params.id)
+        const user = await User.findById(req.params.userId)
 
         if (!user || !user.avatar) {
             throw new Error()
@@ -116,12 +117,31 @@ router.get('/users/:id/avatar', async (req, res) => {
 })
 
 router.get('/users/me', auth, async (req, res) => {
-    res.send(req.user)
+    try {
+        const me = await User.findById(req.user._id)
+
+        res.send(me)
+    } catch (e) {
+        res.status(500).send(e)
+    }
+})
+
+router.get('/users/:userId', auth, async (req, res) => {
+    try {
+        const user = await User.findById(req.params.userId)
+
+        if (!user) {
+            return res.status(404).send()
+        }
+        res.send(user)
+    } catch (e) {
+        res.status(500).send(e)
+    }
 })
 
 router.patch('/users/me', auth, async (req, res) => {
     const updates = Object.keys(req.body)
-    const allowedUpates = ['name', 'email', 'password', 'age']
+    const allowedUpates = ['name', 'email', 'password', 'number', 'birthday']
     const isValidOperation = updates.every((update) => allowedUpates.includes(update))
 
     if (!isValidOperation) {
@@ -150,5 +170,25 @@ router.delete('/users/me', auth, async (req, res) => {
         res.status(400).send(e)
     }
 })
+
+// router.post('/users/:userId/bookmarks', auth, async (req, res) => {
+//     const user = new User({
+//         ...req.body,
+//         bookmarks: req.user._id
+//     })
+
+//     try {
+//         await user.save()
+//         res.status(200).send(user)
+//     } catch (e) {
+//         res.status(400).send(e)
+//     }
+// })
+
+// router.get('/users/:userId/bookmarks')
+
+// router.delete('/users/:userId/bookmarks/:bookmarksId')
+
+// router.post('/users/:userId/trip')
 
 module.exports = router

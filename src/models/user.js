@@ -49,7 +49,12 @@ const userSchema = new mongoose.Schema({
     }],
     avatar: {
         type: Buffer
-    }
+    },
+    // bookmarks: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     required: true,
+    //     ref: 'Post'
+    // }
 }, {
     timestamps: true
 })

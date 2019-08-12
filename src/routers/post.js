@@ -41,6 +41,10 @@ router.get('/posts/me', auth, async (req, res) => {
             sort[parts[0]] = parts[1] === 'desc' ? -1 : 1
         }
 
+        if (!req.user.posts) {
+            res.status(404).send()
+        }
+
         await req.user.populate({
             path: 'posts',
             match,
@@ -69,13 +73,13 @@ router.get('/posts', auth, async (req, res) => {
     }
 })
 
-router.get('/posts/:id', auth, async (req, res) => {
-    const _id = req.params.id
+router.get('/posts/:postId', auth, async (req, res) => {
+    const _id = req.params.postId
 
     try {
         const post = await Post.findOne({
-            _id,
-            owner: req.user._id
+            _id
+            // owner: req.user._id
         })
 
         if (!post) {
@@ -87,7 +91,7 @@ router.get('/posts/:id', auth, async (req, res) => {
     }
 })
 
-router.patch('/posts/:id', auth, async (req, res) => {
+router.patch('/posts/:postId', auth, async (req, res) => {
     const updates = Object.keys(req.body)
     const allowedUpates = ['description', 'completed']
     const isValidOperation = updates.every((update) => allowedUpates.includes(update))
@@ -100,7 +104,7 @@ router.patch('/posts/:id', auth, async (req, res) => {
 
     try {
         const post = await Post.findOne({
-            _id: req.params.id,
+            _id: req.params.postId,
             owner: req.user._id
         })
 
@@ -116,10 +120,10 @@ router.patch('/posts/:id', auth, async (req, res) => {
     }
 })
 
-router.delete('/posts/:id', auth, async (req, res) => {
+router.delete('/posts/:postId', auth, async (req, res) => {
     try {
         const post = await Post.findOneAndDelete({
-            _id: req.params.id,
+            _id: req.params.postId,
             owner: req.user._id
         })
 
@@ -131,23 +135,6 @@ router.delete('/posts/:id', auth, async (req, res) => {
     } catch (e) {
         res.status(400).send(e)
     }
-})
-
-router.delete('/posts/deleteAll', auth, async (req, res) => {
-    res.send('test')
-    // try {
-    //     const posts = await Post.find({
-    //         owner: user._id
-    //     })
-
-    //     if (!posts) {
-    //         return res.status(404).send()
-    //     }
-
-    //     post.deleteMany()
-    // } catch (e) {
-    //     res.status(400).send(e)
-    // }
 })
 
 module.exports = router
