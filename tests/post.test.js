@@ -19,7 +19,13 @@ test('Should create post for user', async () => {
         .post('/posts')
         .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
         .send({
-            description: 'From my test'
+            destination: 'Pantai Parangtritis',
+            description: 'Ayo jalan-jalan',
+            completed: false,
+            route: 'Bantul-Sleman',
+            person: 5,
+            start: '2019-05-18T16:00:00.000Z',
+            finish: '2019-05-18T16:00:00.000Z'
         })
         .expect(201)
 
@@ -35,7 +41,7 @@ test('Should get user posts', async () => {
         .send()
         .expect(200)
 
-    expect(response.body.length).toEqual(2)
+    expect(response.body.length).toEqual(3)
 })
 
 test('Should not delete other user posts', async () => {

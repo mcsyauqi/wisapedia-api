@@ -171,19 +171,21 @@ router.delete('/users/me', auth, async (req, res) => {
     }
 })
 
-// router.post('/users/:userId/bookmarks', auth, async (req, res) => {
-//     const user = new User({
-//         ...req.body,
-//         bookmarks: req.user._id
-//     })
+router.put('/users/bookmarks/:postId', auth, async (req, res) => {
 
-//     try {
-//         await user.save()
-//         res.status(200).send(user)
-//     } catch (e) {
-//         res.status(400).send(e)
-//     }
-// })
+    const postId = req.params.postId
+
+    try {
+        const user = await User.findByIdAndUpdate(req.user._id, {
+            'bookmarks.bookmark': postId
+        })
+        await user.save()
+        res.status(200).send(user)
+    } catch (e) {
+        res.status(400).send(e)
+        console.log(e)
+    }
+})
 
 // router.get('/users/:userId/bookmarks')
 

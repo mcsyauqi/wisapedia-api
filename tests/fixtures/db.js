@@ -31,22 +31,37 @@ const userTwo = {
 
 const postOne = {
     _id: new mongoose.Types.ObjectId(),
-    description: 'First post',
+    destination: 'Pantai Parangtritis',
+    description: 'Ayo jalan-jalan',
     completed: false,
+    route: 'Bantul-Sleman',
+    person: 5,
+    start: '2019-05-18T16:00:00.000Z',
+    finish: '2019-05-18T16:00:00.000Z',
     owner: userOne._id
 }
 
 const postTwo = {
     _id: new mongoose.Types.ObjectId(),
-    description: 'Second post',
-    completed: true,
+    destination: 'Pantai Pangandaran',
+    description: 'Ayo jalan',
+    completed: false,
+    route: 'Jogja-Cilacap',
+    person: 5,
+    start: '2019-05-18T16:00:00.000Z',
+    finish: '2019-05-18T16:00:00.000Z',
     owner: userOne._id
 }
 
 const postThree = {
     _id: new mongoose.Types.ObjectId(),
-    description: 'Third post',
-    completed: true,
+    destination: 'Pantai Nglambor',
+    description: 'Ayo jalan',
+    completed: false,
+    route: 'Jogja-Cilacap',
+    person: 5,
+    start: '2019-05-18T16:00:00.000Z',
+    finish: '2019-05-18T16:00:00.000Z',
     owner: userTwo._id
 }
 

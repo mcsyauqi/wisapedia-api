@@ -13,7 +13,8 @@ test('Should signup a new user', async () => {
     const response = await request(app).post('/users').send({
         name: 'Syauqi',
         email: 'ahmadthariqsyauqi@gmail.com',
-        password: 'MyPass777!'
+        password: 'MyPass777!',
+        birthday: '1997-05-18T16:00:00.000Z',
     }).expect(201)
 
     // Assert that the database was changed correctly
@@ -25,6 +26,7 @@ test('Should signup a new user', async () => {
         user: {
             name: 'Syauqi',
             email: 'ahmadthariqsyauqi@gmail.com',
+            birthday: '1997-05-18T16:00:00.000Z',
         },
         token: user.tokens[0].token
     })

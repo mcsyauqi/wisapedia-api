@@ -34,12 +34,10 @@ const userSchema = new mongoose.Schema({
         }
     },
     number: {
-        type: Number,
-        required: true,
+        type: Number
     },
     birthday: {
-        type: Date,
-        required: true,
+        type: Date
     },
     tokens: [{
         token: {
@@ -50,11 +48,11 @@ const userSchema = new mongoose.Schema({
     avatar: {
         type: Buffer
     },
-    // bookmarks: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     required: true,
-    //     ref: 'Post'
-    // }
+    bookmarks: [{
+        bookmark: {
+            type: mongoose.Schema.Types.ObjectId
+        }
+    }]
 }, {
     timestamps: true
 })
